@@ -1,0 +1,126 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        // South African Brand Colors - Primary (Blue)
+        primary: {
+          50: '#e6f2ff',
+          100: '#cce5ff',
+          200: '#99ccff',
+          300: '#66b2ff',
+          400: '#3399ff',
+          500: '#0080ff',
+          600: '#0066cc',
+          700: '#004d99',
+          800: '#003366',
+          900: '#001a33',
+          950: '#000d1a',
+        },
+        // South African Brand Colors - Secondary (Orange/Gold)
+        secondary: {
+          50: '#fff5e6',
+          100: '#ffebcc',
+          200: '#ffd699',
+          300: '#ffc266',
+          400: '#ffad33',
+          500: '#ff9900',
+          600: '#cc7a00',
+          700: '#995c00',
+          800: '#663d00',
+          900: '#331f00',
+          950: '#1a0f00',
+        },
+        // Semantic Colors
+        success: {
+          50: '#e6f7ed',
+          100: '#ccefdb',
+          200: '#99dfb7',
+          300: '#66cf93',
+          400: '#33bf6f',
+          500: '#10b981',
+          600: '#0d9467',
+          700: '#0a6f4d',
+          800: '#074a33',
+          900: '#03251a',
+        },
+        warning: {
+          50: '#fff7ed',
+          100: '#ffedd5',
+          200: '#fed7aa',
+          300: '#fdba74',
+          400: '#fb923c',
+          500: '#f59e0b',
+          600: '#d97706',
+          700: '#b45309',
+          800: '#92400e',
+          900: '#78350f',
+        },
+        error: {
+          50: '#fef2f2',
+          100: '#fee2e2',
+          200: '#fecaca',
+          300: '#fca5a5',
+          400: '#f87171',
+          500: '#ef4444',
+          600: '#dc2626',
+          700: '#b91c1c',
+          800: '#991b1b',
+          900: '#7f1d1d',
+        },
+        info: {
+          50: '#eff6ff',
+          100: '#dbeafe',
+          200: '#bfdbfe',
+          300: '#93c5fd',
+          400: '#60a5fa',
+          500: '#3b82f6',
+          600: '#2563eb',
+          700: '#1d4ed8',
+          800: '#1e40af',
+          900: '#1e3a8a',
+        },
+      },
+      animation: {
+        'slide-up': 'slideUp 0.3s ease-out',
+        'fade-in': 'fadeIn 0.2s ease-out',
+        'scale-in': 'scaleIn 0.2s ease-out',
+      },
+      keyframes: {
+        slideUp: {
+          '0%': { transform: 'translateY(100%)', opacity: '0' },
+          '100%': { transform: 'translateY(0)', opacity: '1' },
+        },
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        scaleIn: {
+          '0%': { transform: 'scale(0.95)', opacity: '0' },
+          '100%': { transform: 'scale(1)', opacity: '1' },
+        },
+      },
+      fontSize: {
+        xs: ['0.75rem', { lineHeight: '1rem' }],
+        sm: ['0.875rem', { lineHeight: '1.25rem' }],
+        base: ['1rem', { lineHeight: '1.5rem' }],
+        lg: ['1.125rem', { lineHeight: '1.75rem' }],
+        xl: ['1.25rem', { lineHeight: '1.75rem' }],
+        '2xl': ['1.5rem', { lineHeight: '2rem' }],
+        '3xl': ['1.875rem', { lineHeight: '2.25rem' }],
+        '4xl': ['2.25rem', { lineHeight: '2.5rem' }],
+      },
+      borderRadius: {
+        '4xl': '2rem',
+      },
+      minHeight: {
+        touch: '44px',
+      },
+      minWidth: {
+        touch: '44px',
+      },
+    },
+  },
+}
