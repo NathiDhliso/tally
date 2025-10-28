@@ -32,8 +32,9 @@ const Card = ({
       whileHover={
         hover && !prefersReducedMotion
           ? {
-              y: -4,
-              boxShadow: '0 0 30px rgba(107, 142, 35, 0.3)',
+              y: -12,
+              boxShadow: '0 20px 60px rgba(107, 142, 35, 0.4)',
+              borderColor: 'rgba(107, 142, 35, 0.6)',
             }
           : {}
       }

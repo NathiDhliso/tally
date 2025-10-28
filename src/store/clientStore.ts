@@ -17,8 +17,42 @@ interface ClientStore {
   setError: (error: string | null) => void;
 }
 
+// Sample data for demonstration
+const sampleClients: Client[] = [
+  {
+    id: 'client-sample-1',
+    name: 'Acme Corporation',
+    email: 'contact@acmecorp.co.za',
+    phone: '+27 11 123 4567',
+    address: '123 Business Park, Sandton, Johannesburg, 2196',
+    createdAt: new Date('2024-12-01'),
+    lastUsed: new Date('2025-01-15'),
+    usageCount: 5,
+  },
+  {
+    id: 'client-sample-2',
+    name: 'TechStart Solutions',
+    email: 'hello@techstart.co.za',
+    phone: '+27 21 555 8888',
+    address: '45 Innovation Drive, Cape Town, 8001',
+    createdAt: new Date('2025-01-10'),
+    lastUsed: new Date('2025-02-01'),
+    usageCount: 2,
+  },
+  {
+    id: 'client-sample-3',
+    name: 'Green Energy Co',
+    email: 'info@greenenergy.co.za',
+    phone: '+27 31 777 9999',
+    address: '78 Eco Street, Durban, 4001',
+    createdAt: new Date('2025-02-05'),
+    lastUsed: new Date('2025-02-15'),
+    usageCount: 1,
+  },
+];
+
 export const useClientStore = create<ClientStore>((set, get) => ({
-  clients: [],
+  clients: sampleClients,
   isLoading: false,
   error: null,
 

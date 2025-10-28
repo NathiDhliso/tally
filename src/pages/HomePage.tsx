@@ -1,4 +1,3 @@
-import { lazy, Suspense } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { VoiceRecorder, Button, Card } from '../components';
@@ -7,9 +6,6 @@ import { useTypingEffect } from '../hooks/useTypingEffect';
 import { fadeInUp, staggerChildren } from '../utils/animations';
 import { FileText, Users, Settings, ArrowDown } from 'lucide-react';
 import { useReducedMotion } from '../hooks/useReducedMotion';
-
-// Lazy load AloePattern - only needed for background decoration
-const AloePattern = lazy(() => import('../components/AloePattern').then(m => ({ default: m.AloePattern })));
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -89,14 +85,40 @@ const HomePage = () => {
   };
 
   return (
-    <div className="relative min-h-screen overflow-x-hidden bg-[#0f172a]">
-      {/* Geometric Aloe Pattern Background - Static for performance */}
-      <Suspense fallback={null}>
-        <AloePattern opacity={0.05} color="#6b8e23" />
-      </Suspense>
+    <div className="relative min-h-screen overflow-x-hidden">
+      {/* Subtle animated gradient orbs for depth - no distracting pattern */}
+      {!prefersReducedMotion && (
+        <div className="fixed inset-0 z-pattern overflow-hidden pointer-events-none">
+          <motion.div
+            className="absolute -top-1/4 -left-1/4 w-1/2 h-1/2 rounded-full bg-sage-500/10 blur-[100px]"
+            animate={{ 
+              scale: [1, 1.2, 1], 
+              opacity: [0.1, 0.2, 0.1] 
+            }}
+            transition={{ 
+              duration: 8, 
+              repeat: Infinity, 
+              ease: 'easeInOut' 
+            }}
+          />
+          <motion.div
+            className="absolute -bottom-1/4 -right-1/4 w-1/2 h-1/2 rounded-full bg-gold-500/10 blur-[100px]"
+            animate={{ 
+              scale: [1, 1.3, 1], 
+              opacity: [0.1, 0.2, 0.1] 
+            }}
+            transition={{ 
+              duration: 10, 
+              repeat: Infinity, 
+              ease: 'easeInOut',
+              delay: 2 
+            }}
+          />
+        </div>
+      )}
       
-      {/* Hero Section - Center-focused with smooth scroll animations */}
-      <section className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8">
+      {/* Hero Section - Fixed to viewport, microphone always visible */}
+      <section className="sticky top-0 z-content min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"
           animate="visible"
@@ -107,7 +129,11 @@ const HomePage = () => {
           {/* Hero Headline with Gradient - Large animated with sage-to-gold gradient */}
           <motion.h1
             variants={fadeInUp}
-            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-6 sm:mb-8 bg-gradient-to-r from-sage-500 via-sage-400 to-gold-500 bg-clip-text text-transparent leading-tight tracking-tight px-4"
+            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-6 sm:mb-8 bg-gradient-to-r from-sage-400 to-gold-400 bg-clip-text text-transparent leading-tight tracking-tight px-4"
+            style={{
+              filter: 'drop-shadow(0 2px 8px rgba(107, 142, 35, 0.5))',
+              WebkitTextStroke: '0.5px rgba(107, 142, 35, 0.1)',
+            }}
           >
             Voice to Invoice
           </motion.h1>
@@ -160,7 +186,7 @@ const HomePage = () => {
       {/* Quick Actions Section - Smooth scroll reveal */}
       <section 
         id="quick-actions"
-        className="relative z-10 py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8"
+        className="relative z-content py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8"
       >
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -175,7 +201,10 @@ const HomePage = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-4 sm:mb-6 bg-gradient-to-r from-sage-400 to-gold-500 bg-clip-text text-transparent"
+            className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-4 sm:mb-6 bg-gradient-to-r from-sage-400 to-gold-400 bg-clip-text text-transparent"
+            style={{
+              filter: 'drop-shadow(0 2px 8px rgba(107, 142, 35, 0.5))',
+            }}
           >
             Quick Actions
           </motion.h2>

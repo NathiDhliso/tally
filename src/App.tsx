@@ -3,7 +3,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import { ToastProvider } from './contexts/ToastContext';
 import MainLayout from './layouts/MainLayout';
 import {
-  HomePage,
+  HomePageUnified,
   InvoicesPage,
   ClientsPage,
   SettingsPage,
@@ -17,12 +17,16 @@ function App() {
       <ToastProvider>
         <AuthProvider>
           <Routes>
+            {/* Unified homepage - no layout wrapper for full control */}
+            <Route index element={<HomePageUnified />} />
+            
+            {/* Other pages use MainLayout for navigation */}
             <Route path="/" element={<MainLayout />}>
-              <Route index element={<HomePage />} />
               <Route path="invoices" element={<InvoicesPage />} />
-              <Route path="invoice/review" element={<InvoiceReviewPage />} />
               <Route path="clients" element={<ClientsPage />} />
               <Route path="settings" element={<SettingsPage />} />
+              {/* Keep legacy route for backwards compatibility */}
+              <Route path="invoice/review" element={<InvoiceReviewPage />} />
               {/* Development-only route for browser testing */}
               <Route path="browser-test" element={<BrowserTestPanel />} />
             </Route>

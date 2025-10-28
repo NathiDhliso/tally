@@ -180,14 +180,16 @@ const InvoiceReviewPage = () => {
         className="max-w-4xl mx-auto px-4"
         variants={prefersReducedMotion ? undefined : fadeInUp}
       >
-        <div className="bg-white/5 backdrop-blur-xl border border-sage-500/20 rounded-2xl p-6 md:p-8 shadow-xl shadow-black/20">
-          {/* Header */}
+        <div className="bg-white/10 backdrop-blur-2xl border border-sage-500/30 rounded-2xl p-6 md:p-8 shadow-[0_8px_32px_rgba(0,0,0,0.4),0_0_0_1px_rgba(107,142,35,0.1)_inset]">
+          {/* Header with Conversational Tone */}
           <div className="mb-6">
-            <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-sage-400 to-gold-400 bg-clip-text text-transparent">
-              Review Invoice Details
+            <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-sage-400 to-gold-400 bg-clip-text text-transparent" style={{ textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)' }}>
+              Here's What I've Got
             </h1>
-            <p className="text-white/60 mt-2">
-              Verify the extracted information and make any necessary adjustments
+            <p className="text-white/70 mt-2" style={{ textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)' }}>
+              {Object.values(confidence).some(c => c < 85) 
+                ? "I've highlighted a few things you might want to double-check. Take a look and let me know if it's all good."
+                : "Everything looks solid! Give it a quick review and we'll be ready to go."}
             </p>
           </div>
 

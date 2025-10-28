@@ -29,11 +29,11 @@ const Button = ({
 
   const variantStyles = {
     primary:
-      'bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/15 hover:shadow-glow-sage transition-shadow duration-300',
+      'bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/15 hover:shadow-glow-sage-lg transition-shadow duration-300 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]',
     secondary:
-      'bg-sage-500/10 backdrop-blur-md border border-sage-500/20 text-sage-400 hover:bg-sage-500/15 hover:shadow-glow-sage transition-shadow duration-300',
+      'bg-sage-500/10 backdrop-blur-md border border-sage-500/20 text-sage-400 hover:bg-sage-500/15 hover:shadow-glow-sage-lg transition-shadow duration-300 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]',
     outline:
-      'border-2 border-sage-500/50 text-sage-400 hover:bg-sage-500/10 hover:shadow-glow-sage backdrop-blur-sm transition-shadow duration-300',
+      'border-2 border-sage-500/50 text-sage-400 hover:bg-sage-500/10 hover:shadow-glow-sage-lg backdrop-blur-sm transition-shadow duration-300',
   };
 
   const sizeStyles = {
@@ -48,7 +48,10 @@ const Button = ({
     <motion.button
       className={`group ${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${className}`}
       style={{ willChange: !isDisabled && !prefersReducedMotion ? 'transform' : 'auto' }}
-      whileHover={!isDisabled && !prefersReducedMotion ? { scale: 1.05 } : {}}
+      whileHover={!isDisabled && !prefersReducedMotion ? { 
+        scale: 1.05,
+        boxShadow: '0 0 40px rgba(107, 142, 35, 0.8)'
+      } : {}}
       whileTap={!isDisabled && !prefersReducedMotion ? { scale: 0.98 } : {}}
       transition={{ type: 'spring', stiffness: 400, damping: 25 }}
       disabled={isDisabled}

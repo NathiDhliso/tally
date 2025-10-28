@@ -54,15 +54,21 @@ export const VoiceRecorder = ({ onRecordingComplete, onError, onSwitchToManualEn
   const cleanup = () => {
     if (animationFrameRef.current) {
       cancelAnimationFrame(animationFrameRef.current);
+      animationFrameRef.current = null;
     }
     if (timerIntervalRef.current) {
       clearInterval(timerIntervalRef.current);
+      timerIntervalRef.current = null;
     }
     if (longPressTimerRef.current) {
       clearTimeout(longPressTimerRef.current);
+      longPressTimerRef.current = null;
     }
-    if (audioContextRef.current) {
-      audioContextRef.current.close();
+    if (audioContextRef.current && audioContextRef.current.state !== 'closed') {
+      audioContextRef.current.close().catch(() => {
+        // Ignore errors if already closed
+      });
+      audioContextRef.current = null;
     }
   };
 
@@ -298,7 +304,7 @@ export const VoiceRecorder = ({ onRecordingComplete, onError, onSwitchToManualEn
       case 'extracting':
         return "Pulling out the important bits... This won't take long!";
       case 'complete':
-        return "Got it!";
+        return "Alright, I've got everything. Let me draft that invoice for you...";
       case 'error':
         return "Eish, something went wrong. Let's try that again?";
       default:
@@ -595,16 +601,16 @@ export const VoiceRecorder = ({ onRecordingComplete, onError, onSwitchToManualEn
         </div>
       )}
 
-      {/* Status Text with Typing Effect */}
+      {/* Status Text with Typing Effect and Text Shadow for Readability */}
       <motion.div
         className="text-center"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={softSpring}
       >
-        <div className="text-base text-gray-600 dark:text-gray-300 min-h-[24px]">
+        <div className="text-base text-gray-600 dark:text-gray-300 min-h-[24px]" style={{ textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)' }}>
           {status === 'complete' ? (
-            <span className="text-terracotta-600 dark:text-terracotta-400 font-medium text-lg">
+            <span className="text-sage-600 dark:text-sage-400 font-medium text-lg">
               {statusMessage}
             </span>
           ) : (

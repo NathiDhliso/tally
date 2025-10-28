@@ -19,9 +19,10 @@ export const glassStyles = {
   /**
    * Base glass surface
    * Use for standard glass components
+   * Enhanced opacity for better text readability
    */
   base: {
-    background: 'rgba(255, 255, 255, 0.1)',
+    background: 'rgba(255, 255, 255, 0.12)',
     backdropFilter: 'blur(12px)',
     WebkitBackdropFilter: 'blur(12px)', // Safari support
     border: '1px solid rgba(255, 255, 255, 0.2)',
@@ -38,9 +39,10 @@ export const glassStyles = {
   /**
    * Glass card surface
    * For card components with subtle depth
+   * Enhanced opacity and text shadow for better readability
    */
   card: {
-    background: 'rgba(255, 255, 255, 0.1)',
+    background: 'rgba(255, 255, 255, 0.12)',
     backdropFilter: 'blur(16px)',
     WebkitBackdropFilter: 'blur(16px)',
     border: '1px solid rgba(255, 255, 255, 0.2)',
@@ -78,8 +80,9 @@ export const glassClasses = {
   /**
    * Base glass surface classes
    * Example: <div className={glassClasses.base}>
+   * Enhanced opacity for better text readability
    */
-  base: 'bg-white/10 backdrop-blur-xl border border-white/20',
+  base: 'bg-white/12 backdrop-blur-xl border border-white/20',
 
   /**
    * Glass surface with hover effect
@@ -90,8 +93,9 @@ export const glassClasses = {
   /**
    * Glass card with shadow
    * Example: <div className={glassClasses.card}>
+   * Enhanced opacity for better text readability
    */
-  card: 'bg-white/10 backdrop-blur-xl border border-white/20 shadow-lg',
+  card: 'bg-white/12 backdrop-blur-xl border border-white/20 shadow-lg',
 
   /**
    * Glass card with hover lift effect

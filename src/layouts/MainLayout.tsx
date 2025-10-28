@@ -53,9 +53,46 @@ const MainLayout = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#0f172a]">
-      {/* Top Bar - Desktop and Mobile - Minimal Glass Bar */}
-      <header className="fixed top-0 inset-x-0 lg:left-64 z-40 bg-white/5 backdrop-blur-xl border-b border-white/10">
+    <div className="min-h-screen relative">
+      {/* Layered background system */}
+      <div className="fixed inset-0 bg-gradient-to-b from-[#0a0a0f] via-[#0f172a] to-[#1e293b] -z-10" />
+      
+      {/* Ambient gradient orbs for depth */}
+      {!prefersReducedMotion && (
+        <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+          <motion.div
+            className="absolute top-0 left-1/4 w-96 h-96 rounded-full bg-sage-500/5 blur-[120px]"
+            animate={{ 
+              scale: [1, 1.2, 1],
+              x: [-20, 20, -20],
+              opacity: [0.05, 0.1, 0.05]
+            }}
+            transition={{ 
+              duration: 12, 
+              repeat: Infinity, 
+              ease: 'easeInOut' 
+            }}
+          />
+          <motion.div
+            className="absolute bottom-0 right-1/4 w-96 h-96 rounded-full bg-gold-500/5 blur-[120px]"
+            animate={{ 
+              scale: [1, 1.3, 1],
+              x: [20, -20, 20],
+              opacity: [0.05, 0.1, 0.05]
+            }}
+            transition={{ 
+              duration: 15, 
+              repeat: Infinity, 
+              ease: 'easeInOut',
+              delay: 3
+            }}
+          />
+        </div>
+      )}
+      
+      <div className="relative">
+      {/* Top Bar - Desktop and Mobile - Enhanced Glass Bar */}
+      <header className="fixed top-0 inset-x-0 lg:left-64 z-nav-desktop bg-white/10 backdrop-blur-2xl border-b border-sage-500/20 shadow-[0_4px_24px_rgba(0,0,0,0.4)]">
         <div className="flex items-center justify-between px-4 lg:px-8 py-3">
           {/* Mobile Logo */}
           <motion.h1 
@@ -210,11 +247,11 @@ const MainLayout = () => {
         </div>
       </header>
 
-      {/* Desktop Sidebar */}
-      <aside className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col">
-        <div className="flex flex-col flex-grow bg-white/10 backdrop-blur-xl border-r border-white/20 overflow-y-auto shadow-lift">
+      {/* Desktop Sidebar - Enhanced Glass */}
+      <aside className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col z-nav-desktop">
+        <div className="flex flex-col flex-grow bg-white/10 backdrop-blur-2xl border-r border-sage-500/20 overflow-y-auto shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
           {/* Logo Section */}
-          <div className="flex items-center flex-shrink-0 px-6 py-5 border-b border-white/10">
+          <div className="flex items-center flex-shrink-0 px-6 py-5 border-b border-sage-500/20">
             <motion.h1 
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -322,7 +359,7 @@ const MainLayout = () => {
           </nav>
 
           {/* Footer Section (Optional) */}
-          <div className="px-4 py-4 border-t border-white/10">
+          <div className="px-4 py-4 border-t border-sage-500/20">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -337,23 +374,24 @@ const MainLayout = () => {
       </aside>
 
       {/* Main Content */}
-      <main className="lg:pl-64 pt-16 pb-24 lg:pb-6">
+      <main className="lg:pl-64 pt-16 pb-[calc(88px+env(safe-area-inset-bottom))] lg:pb-6">
         <div className="py-6 px-4 sm:px-6 lg:px-8">
           <Outlet />
         </div>
       </main>
 
       {/* Mobile Bottom Navigation - Floating Glass Bottom Bar */}
-      <nav className="lg:hidden fixed bottom-4 inset-x-4 z-40">
-        <motion.div
-          initial={{ y: 100, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ type: 'spring', stiffness: 300, damping: 30, delay: 0.2 }}
-          className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lift overflow-hidden"
-          style={{
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1) inset',
-          }}
-        >
+      <nav className="lg:hidden fixed bottom-0 inset-x-0 pb-[env(safe-area-inset-bottom)] z-nav-mobile">
+        <div className="mx-4 mb-4">
+          <motion.div
+            initial={{ y: 100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 30, delay: 0.2 }}
+            className="bg-white/10 backdrop-blur-2xl border border-sage-500/30 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.4),0_0_0_1px_rgba(107,142,35,0.1)_inset] overflow-hidden"
+            style={{
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1) inset',
+            }}
+          >
           <div className="flex justify-around items-center px-2 py-2">
             {navigation.map((item, index) => {
               const active = isActive(item.path);
@@ -473,9 +511,11 @@ const MainLayout = () => {
                 </Link>
               );
             })}
-          </div>
-        </motion.div>
+            </div>
+          </motion.div>
+        </div>
       </nav>
+      </div>
     </div>
   );
 };

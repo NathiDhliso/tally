@@ -48,15 +48,15 @@ const ConfidenceIndicator = ({
     return () => clearInterval(timer);
   }, [confidence, prefersReducedMotion]);
 
-  // Pulsing glow for low confidence
+  // Pulsing glow for low confidence - more prominent hotspot
   useEffect(() => {
-    if (confidence < 60 && !prefersReducedMotion) {
+    if (confidence < 85 && !prefersReducedMotion) {
+      const glowIntensity = confidence < 60 
+        ? ['0 0 15px rgba(245, 158, 11, 0.4)', '0 0 30px rgba(239, 68, 68, 0.6)', '0 0 15px rgba(245, 158, 11, 0.4)']
+        : ['0 0 10px rgba(218, 165, 32, 0.3)', '0 0 20px rgba(218, 165, 32, 0.5)', '0 0 10px rgba(218, 165, 32, 0.3)'];
+      
       controls.start({
-        boxShadow: [
-          '0 0 10px rgba(245, 158, 11, 0.3)',
-          '0 0 20px rgba(239, 68, 68, 0.5)',
-          '0 0 10px rgba(245, 158, 11, 0.3)',
-        ],
+        boxShadow: glowIntensity,
         transition: {
           repeat: Infinity,
           duration: 2,
@@ -105,10 +105,15 @@ const ConfidenceIndicator = ({
 
   return (
     <div className="relative">
-      {/* Glass container with children */}
+      {/* Glass container with children - enhanced border for low confidence */}
       <motion.div
         animate={controls}
-        className="relative bg-white/10 backdrop-blur-md border border-white/20 rounded-lg overflow-hidden"
+        className={`relative bg-white/12 backdrop-blur-md rounded-lg overflow-hidden ${
+          confidence < 85 
+            ? 'border-2 border-gold-500/40' 
+            : 'border border-white/20'
+        }`}
+        style={{ textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)' }}
       >
         {children}
 

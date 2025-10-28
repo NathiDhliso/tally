@@ -208,7 +208,7 @@ const InvoicesPage = () => {
                 }}
               >
                 <motion.div
-                  className="bg-white/10 dark:bg-white/5 backdrop-blur-xl border border-white/20 rounded-lg p-6 transition-all hover:border-sage-500/30 dark:hover:border-sage-400/30"
+                  className="bg-white/10 backdrop-blur-2xl border border-sage-500/20 rounded-lg p-6 transition-all hover:border-sage-500/50 shadow-[0_4px_16px_rgba(0,0,0,0.3)]"
                   whileHover={prefersReducedMotion ? undefined : { 
                     y: -8, 
                     boxShadow: '0 12px 40px rgba(107, 142, 35, 0.25)',

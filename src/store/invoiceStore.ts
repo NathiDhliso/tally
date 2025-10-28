@@ -33,8 +33,54 @@ interface InvoiceStore {
   setError: (error: string | null) => void;
 }
 
+// Sample data for demonstration
+const sampleInvoices: Invoice[] = [
+  {
+    id: 'inv-sample-1',
+    invoiceNumber: 'INV-2025-001',
+    clientName: 'Acme Corporation',
+    itemDescription: 'Web Development Services - Q1 2025',
+    quantity: 1,
+    unitPrice: 15000,
+    totalAmount: 15000,
+    date: '2025-01-15',
+    status: 'paid',
+    createdAt: '2025-01-15T10:00:00Z',
+    updatedAt: '2025-01-20T14:30:00Z',
+    synced: true,
+  },
+  {
+    id: 'inv-sample-2',
+    invoiceNumber: 'INV-2025-002',
+    clientName: 'TechStart Solutions',
+    itemDescription: 'Mobile App Design & Development',
+    quantity: 1,
+    unitPrice: 25000,
+    totalAmount: 25000,
+    date: '2025-02-01',
+    status: 'sent',
+    createdAt: '2025-02-01T09:00:00Z',
+    updatedAt: '2025-02-01T09:00:00Z',
+    synced: true,
+  },
+  {
+    id: 'inv-sample-3',
+    invoiceNumber: 'INV-2025-003',
+    clientName: 'Green Energy Co',
+    itemDescription: 'Consulting Services - February',
+    quantity: 20,
+    unitPrice: 500,
+    totalAmount: 10000,
+    date: '2025-02-15',
+    status: 'draft',
+    createdAt: '2025-02-15T11:00:00Z',
+    updatedAt: '2025-02-15T11:00:00Z',
+    synced: false,
+  },
+];
+
 export const useInvoiceStore = create<InvoiceStore>((set, get) => ({
-  invoices: [],
+  invoices: sampleInvoices,
   isLoading: false,
   error: null,
 

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { ExtractedInvoiceData, ConfidenceScores } from '../types/invoice';
 import { InvoiceSchema, type InvoiceFormData } from '../utils/validation';
@@ -35,8 +35,36 @@ const InvoiceForm = ({
   const [animatedTotal, setAnimatedTotal] = useState(formData.totalAmount);
   const prefersReducedMotion = useReducedMotion();
   
+  // Refs for auto-focusing low-confidence fields
+  const fieldRefs = useRef<Record<string, HTMLInputElement | HTMLTextAreaElement | null>>({});
+  const hasAutoFocused = useRef(false);
+  
   // Debounce form data for auto-save
   const debouncedFormData = useDebounce(formData, 2000);
+
+  // Auto-focus first low-confidence field on mount
+  useEffect(() => {
+    if (hasAutoFocused.current) return;
+    
+    // Find first field with confidence < 85
+    const lowConfidenceFields = Object.entries(confidence)
+      .filter(([_, conf]) => conf < 85)
+      .sort(([_, a], [__, b]) => a - b); // Sort by confidence, lowest first
+    
+    if (lowConfidenceFields.length > 0) {
+      const [fieldName] = lowConfidenceFields[0];
+      const fieldRef = fieldRefs.current[fieldName];
+      
+      if (fieldRef) {
+        // Delay to allow animations to settle
+        setTimeout(() => {
+          fieldRef.focus();
+          fieldRef.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          hasAutoFocused.current = true;
+        }, 800);
+      }
+    }
+  }, [confidence]);
 
   // Calculate total amount when quantity or unit price changes
   useEffect(() => {
@@ -179,6 +207,7 @@ const InvoiceForm = ({
           <ConfidenceIndicator confidence={conf} showPercentage={showPercentage} size="sm">
             {type === 'textarea' ? (
               <textarea
+                ref={el => { fieldRefs.current[field] = el; }}
                 value={value as string}
                 onChange={e => handleChange(field, e.target.value)}
                 onFocus={() => setFocusedField(field)}
@@ -189,6 +218,7 @@ const InvoiceForm = ({
               />
             ) : (
               <input
+                ref={el => { fieldRefs.current[field] = el; }}
                 type={type}
                 value={value}
                 onChange={e =>
