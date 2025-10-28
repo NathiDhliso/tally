@@ -6,16 +6,19 @@ import { useToast } from '../contexts/ToastContext';
 import { useTypingEffect } from '../hooks/useTypingEffect';
 import { useSwipeGesture } from '../hooks/useSwipeGesture';
 import { fadeInUp, staggerChildren } from '../utils/animations';
-import { FileText, Users, Settings, ArrowDown, ChevronDown } from 'lucide-react';
+import { FileText, Users, Settings, ArrowDown, ChevronDown, Menu } from 'lucide-react';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 import { useInvoiceStore } from '../store/invoiceStore';
 import type { ExtractedInvoiceData, ConfidenceScores } from '../types/invoice';
+import InvoicesPage from './InvoicesPage';
+import ClientsPage from './ClientsPage';
+import SettingsPage from './SettingsPage';
 
 // Lazy load heavy components
 const PDFPreviewModal = lazy(() => import('../components/PDFPreviewModal'));
 const AloeBloom = lazy(() => import('../components/AloeBloom').then(m => ({ default: m.AloeBloom })));
 
-type AppState = 'idle' | 'reviewing' | 'previewing' | 'complete';
+type AppState = 'idle' | 'reviewing' | 'previewing' | 'complete' | 'invoices' | 'clients' | 'settings';
 
 const HomePageUnified = () => {
   const navigate = useNavigate();
@@ -31,6 +34,7 @@ const HomePageUnified = () => {
   const [showPDFPreview, setShowPDFPreview] = useState(false);
   const [showSuccessBloom, setShowSuccessBloom] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
+  const [showMenu, setShowMenu] = useState(false);
   
   // Refs for gesture handling
   const reviewPanelRef = useRef<HTMLDivElement>(null);
@@ -294,7 +298,7 @@ const HomePageUnified = () => {
             </motion.div>
           </motion.section>
         ) : (
-          /* Minimized Microphone in Corner */
+          /* Companion Menu Button in Corner */
           <motion.div
             key="hero-mini"
             className="fixed top-4 left-4 z-50"
@@ -313,26 +317,97 @@ const HomePageUnified = () => {
             }}
           >
             <motion.button
-              onClick={handleDismissReview}
-              className="w-16 h-16 rounded-full bg-gradient-to-br from-sage-500 to-gold-500 flex items-center justify-center shadow-lg hover:shadow-xl transition-shadow"
+              onClick={() => setShowMenu(!showMenu)}
+              className="w-16 h-16 rounded-full bg-gradient-to-br from-sage-500 to-gold-500 flex items-center justify-center shadow-lg hover:shadow-xl transition-shadow relative"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
-              title="Back to microphone"
+              title="Open menu"
             >
-              <svg
-                className="w-8 h-8 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"
-                />
-              </svg>
+              <AnimatePresence mode="wait">
+                {showMenu ? (
+                  <motion.div
+                    key="close"
+                    initial={{ rotate: -90, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: 90, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="menu"
+                    initial={{ rotate: 90, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: -90, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <Menu className="w-8 h-8 text-white" />
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.button>
+
+            {/* Companion Menu Popover */}
+            <AnimatePresence>
+              {showMenu && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9, y: -10 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.9, y: -10 }}
+                  transition={{ duration: 0.2 }}
+                  className="absolute top-20 left-0 w-64"
+                >
+                  <div className="bg-white/10 backdrop-blur-2xl border border-sage-500/30 rounded-2xl p-4 shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
+                    <div className="space-y-2">
+                      <motion.button
+                        onClick={() => { handleDismissReview(); setShowMenu(false); }}
+                        className="w-full flex items-center gap-3 px-4 py-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors text-left text-white"
+                        whileHover={{ x: 4 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                        </svg>
+                        <span>New Invoice</span>
+                      </motion.button>
+
+                      <motion.button
+                        onClick={() => { setAppState('invoices'); setShowMenu(false); }}
+                        className="w-full flex items-center gap-3 px-4 py-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors text-left text-white"
+                        whileHover={{ x: 4 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        <FileText className="w-5 h-5" />
+                        <span>View Invoices</span>
+                      </motion.button>
+
+                      <motion.button
+                        onClick={() => { setAppState('clients'); setShowMenu(false); }}
+                        className="w-full flex items-center gap-3 px-4 py-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors text-left text-white"
+                        whileHover={{ x: 4 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        <Users className="w-5 h-5" />
+                        <span>Manage Clients</span>
+                      </motion.button>
+
+                      <motion.button
+                        onClick={() => { setAppState('settings'); setShowMenu(false); }}
+                        className="w-full flex items-center gap-3 px-4 py-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors text-left text-white"
+                        whileHover={{ x: 4 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        <Settings className="w-5 h-5" />
+                        <span>Settings</span>
+                      </motion.button>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </motion.div>
         )}
       </AnimatePresence>
@@ -501,7 +576,7 @@ const HomePageUnified = () => {
               >
                 <Card
                   className="p-6 sm:p-8 cursor-pointer group transition-all duration-300 hover:shadow-[0_0_30px_rgba(107,142,35,0.3)] border-sage-500/20 h-full"
-                  onClick={() => navigate('/invoices')}
+                  onClick={() => setAppState('invoices')}
                 >
                   <FileText className="w-10 h-10 sm:w-12 sm:h-12 text-sage-500 mx-auto mb-4 transition-transform duration-300 group-hover:scale-110" />
                   <h3 className="text-lg sm:text-xl font-semibold text-gray-100 mb-2">View Invoices</h3>
@@ -517,7 +592,7 @@ const HomePageUnified = () => {
               >
                 <Card
                   className="p-6 sm:p-8 cursor-pointer group transition-all duration-300 hover:shadow-[0_0_30px_rgba(107,142,35,0.3)] border-sage-500/20 h-full"
-                  onClick={() => navigate('/clients')}
+                  onClick={() => setAppState('clients')}
                 >
                   <Users className="w-10 h-10 sm:w-12 sm:h-12 text-sage-500 mx-auto mb-4 transition-transform duration-300 group-hover:scale-110" />
                   <h3 className="text-lg sm:text-xl font-semibold text-gray-100 mb-2">Manage Clients</h3>
@@ -533,7 +608,7 @@ const HomePageUnified = () => {
               >
                 <Card
                   className="p-6 sm:p-8 cursor-pointer group transition-all duration-300 hover:shadow-[0_0_30px_rgba(107,142,35,0.3)] border-sage-500/20 h-full"
-                  onClick={() => navigate('/settings')}
+                  onClick={() => setAppState('settings')}
                 >
                   <Settings className="w-10 h-10 sm:w-12 sm:h-12 text-sage-500 mx-auto mb-4 transition-transform duration-300 group-hover:scale-110" />
                   <h3 className="text-lg sm:text-xl font-semibold text-gray-100 mb-2">Settings</h3>
@@ -544,6 +619,60 @@ const HomePageUnified = () => {
           </motion.div>
         </section>
       )}
+
+      {/* Invoices Panel */}
+      <AnimatePresence>
+        {appState === 'invoices' && (
+          <motion.div
+            key="invoices-panel"
+            className="fixed inset-0 z-40 bg-[#0f172a]/95 backdrop-blur-sm overflow-y-auto"
+            initial={{ x: '100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '100%' }}
+            transition={{ duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
+          >
+            <div className="min-h-screen pb-20 pt-24">
+              <InvoicesPage />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Clients Panel */}
+      <AnimatePresence>
+        {appState === 'clients' && (
+          <motion.div
+            key="clients-panel"
+            className="fixed inset-0 z-40 bg-[#0f172a]/95 backdrop-blur-sm overflow-y-auto"
+            initial={{ x: '100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '100%' }}
+            transition={{ duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
+          >
+            <div className="min-h-screen pb-20 pt-24">
+              <ClientsPage />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Settings Panel */}
+      <AnimatePresence>
+        {appState === 'settings' && (
+          <motion.div
+            key="settings-panel"
+            className="fixed inset-0 z-40 bg-[#0f172a]/95 backdrop-blur-sm overflow-y-auto"
+            initial={{ x: '100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '100%' }}
+            transition={{ duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
+          >
+            <div className="min-h-screen pb-20 pt-24">
+              <SettingsPage />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* PDF Preview Modal */}
       {invoiceData && (
