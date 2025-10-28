@@ -128,6 +128,29 @@ export default {
           800: '#8f7218',
           900: '#766114',
         },
+        
+        // SEMANTIC TOKENS - Single Source of Truth
+        // Use these instead of hardcoded colors
+        'background-primary': '#0f172a',
+        'background-secondary': 'rgba(255, 255, 255, 0.05)',
+        'background-tertiary': '#1e293b',
+        
+        'surface-primary': 'rgba(255, 255, 255, 0.1)',
+        'surface-secondary': 'rgba(255, 255, 255, 0.05)',
+        'surface-hover': 'rgba(255, 255, 255, 0.15)',
+        
+        'text-primary': '#f8fafc',
+        'text-secondary': '#cbd5e1',
+        'text-tertiary': '#94a3b8',
+        'text-placeholder': '#64748b',
+        
+        'border-primary': 'rgba(107, 142, 35, 0.3)',
+        'border-secondary': 'rgba(255, 255, 255, 0.2)',
+        'border-accent': 'rgba(218, 165, 32, 0.5)',
+        
+        'accent-primary': '#6b8e23',
+        'accent-secondary': '#daa520',
+        'accent-tertiary': '#d2691e',
       },
       animation: {
         'slide-up': 'slideUp 0.3s ease-out',

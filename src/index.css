@@ -54,6 +54,43 @@
 }
 
 @layer utilities {
+  /* SEMANTIC UTILITY CLASSES - Single Source of Truth */
+  
+  /* Glass Surface - Replaces bg-white/10 backdrop-blur-2xl border border-sage-500/30 */
+  .glass-surface {
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(107, 142, 35, 0.3);
+  }
+  
+  .glass-surface-hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(107, 142, 35, 0.3);
+  }
+  
+  /* Brand Text Gradient - Replaces bg-gradient-to-r from-sage-400 to-gold-400 bg-clip-text text-transparent */
+  .text-gradient-brand {
+    background: linear-gradient(to right, #8ba888, #f4d03f);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  
+  /* Brand Button Gradient - Replaces bg-gradient-to-br from-sage-500 to-gold-500 */
+  .bg-gradient-brand {
+    background: linear-gradient(to bottom right, #6b8e23, #daa520);
+  }
+  
+  /* Panel Background - Replaces bg-[#0f172a]/95 */
+  .panel-background {
+    background-color: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+  
   /* Legacy animations */
   @keyframes slide-up {
     from {

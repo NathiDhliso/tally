@@ -9,6 +9,7 @@ import { fadeInUp, staggerChildren } from '../utils/animations';
 import { FileText, Users, Settings, ArrowDown, ChevronDown, Menu } from 'lucide-react';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 import { useInvoiceStore } from '../store/invoiceStore';
+import { useSettingsStore } from '../store/settingsStore';
 import type { ExtractedInvoiceData, ConfidenceScores } from '../types/invoice';
 import InvoicesPage from './InvoicesPage';
 import ClientsPage from './ClientsPage';
@@ -24,6 +25,7 @@ const HomePageUnified = () => {
   const navigate = useNavigate();
   const toast = useToast();
   const { addInvoice } = useInvoiceStore();
+  const { businessData } = useSettingsStore();
   const prefersReducedMotion = useReducedMotion();
   
   // App state machine
@@ -50,19 +52,6 @@ const HomePageUnified = () => {
     delay: 800,
   });
 
-  // Mock business data (should come from settings/store)
-  const businessData = {
-    name: 'Your Business Name',
-    email: 'business@example.com',
-    phone: '+27 11 123 4567',
-    address: '123 Business St, Johannesburg, 2000',
-    vatNumber: '4123456789',
-    bankName: 'Standard Bank',
-    accountNumber: '123456789',
-    branchCode: '051001',
-    paymentTerms: 'Payment due within 30 days',
-  };
-
   const steps = [
     { number: 1, label: 'Review Details', description: 'Verify extracted data' },
     { number: 2, label: 'Preview Invoice', description: 'Check final format' },
@@ -74,28 +63,19 @@ const HomePageUnified = () => {
     toast.info('Processing audio...');
     
     // TODO: Upload and process audio with backend
-    // For now, simulate extraction and show review
+    // This will be replaced with actual API call to process the audio
+    // For now, in development, the devData seeder provides sample data
+    
+    // Simulate API processing delay
     setTimeout(() => {
-      const mockData: ExtractedInvoiceData = {
-        clientName: 'Acme Corp',
-        itemDescription: 'Web Development Services',
-        quantity: 1,
-        unitPrice: 5000,
-        date: new Date().toISOString().split('T')[0],
-      };
+      toast.info('Audio processing will be implemented with backend integration');
+      // The actual implementation will:
+      // 1. Upload audioBlob to backend
+      // 2. Receive ExtractedInvoiceData and ConfidenceScores
+      // 3. Set the data and transition to reviewing state
       
-      const mockConfidence: ConfidenceScores = {
-        clientName: 95,
-        itemDescription: 90,
-        quantity: 100,
-        unitPrice: 85,
-        date: 100,
-      };
-      
-      setExtractedData(mockData);
-      setConfidence(mockConfidence);
-      setAppState('reviewing');
-      setCurrentStep(1);
+      // For development testing, use manual entry instead
+      handleManualEntry();
     }, 2000);
   };
 
@@ -250,7 +230,7 @@ const HomePageUnified = () => {
               {/* Hero Headline */}
               <motion.h1
                 variants={fadeInUp}
-                className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-6 sm:mb-8 bg-gradient-to-r from-sage-400 to-gold-400 bg-clip-text text-transparent leading-tight tracking-tight px-4"
+                className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-6 sm:mb-8 text-gradient-brand leading-tight tracking-tight px-4"
                 style={{
                   filter: 'drop-shadow(0 2px 8px rgba(107, 142, 35, 0.5))',
                   WebkitTextStroke: '0.5px rgba(107, 142, 35, 0.1)',
@@ -262,7 +242,7 @@ const HomePageUnified = () => {
               {/* Subtitle with Typing Effect */}
               <motion.p
                 variants={fadeInUp}
-                className="text-lg sm:text-xl md:text-2xl text-gray-300 mb-10 sm:mb-14 min-h-[2.5rem] sm:min-h-[3rem] px-4 font-light"
+                className="text-lg sm:text-xl md:text-2xl text-text-secondary mb-10 sm:mb-14 min-h-[2.5rem] sm:min-h-[3rem] px-4 font-light"
               >
                 {displayedText}
                 <span className="inline-block w-0.5 h-5 sm:h-6 bg-sage-500 ml-1 animate-pulse"></span>
@@ -360,7 +340,7 @@ const HomePageUnified = () => {
                   transition={{ duration: 0.2 }}
                   className="absolute top-20 left-0 w-64"
                 >
-                  <div className="bg-white/10 backdrop-blur-2xl border border-sage-500/30 rounded-2xl p-4 shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
+                  <div className="glass-surface rounded-2xl p-4 shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
                     <div className="space-y-2">
                       <motion.button
                         onClick={() => { handleDismissReview(); setShowMenu(false); }}
@@ -418,7 +398,7 @@ const HomePageUnified = () => {
           <motion.div
             ref={reviewPanelRef}
             key="review-panel"
-            className="fixed inset-0 z-40 bg-[#0f172a]/95 backdrop-blur-sm overflow-y-auto"
+            className="fixed inset-0 z-40 panel-background overflow-y-auto"
             initial={{ y: '100%' }}
             animate={{ 
               y: swipeState.isSwiping && swipeState.direction === 'down' 
@@ -499,10 +479,10 @@ const HomePageUnified = () => {
 
               {/* Main Content - Glass Container */}
               <div className="max-w-4xl mx-auto px-4">
-                <div className="bg-white/10 backdrop-blur-2xl border border-sage-500/30 rounded-2xl p-6 md:p-8 shadow-[0_8px_32px_rgba(0,0,0,0.4),0_0_0_1px_rgba(107,142,35,0.1)_inset]">
+                <div className="glass-surface rounded-2xl p-6 md:p-8 shadow-[0_8px_32px_rgba(0,0,0,0.4),0_0_0_1px_rgba(107,142,35,0.1)_inset]">
                   {/* Header with Conversational Tone */}
                   <div className="mb-6">
-                    <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-sage-400 to-gold-400 bg-clip-text text-transparent text-shadow">
+                    <h1 className="text-2xl md:text-3xl font-bold text-gradient-brand text-shadow">
                       Here's What I've Got
                     </h1>
                     <p className="text-white/70 mt-2 text-shadow-sm">
@@ -544,7 +524,7 @@ const HomePageUnified = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-4 sm:mb-6 bg-gradient-to-r from-sage-400 to-gold-400 bg-clip-text text-transparent"
+              className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-4 sm:mb-6 text-gradient-brand"
               style={{ filter: 'drop-shadow(0 2px 8px rgba(107, 142, 35, 0.5))' }}
             >
               Quick Actions
@@ -555,7 +535,7 @@ const HomePageUnified = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.3 }}
-              className="text-center text-gray-400 text-base sm:text-lg mb-10 sm:mb-14 max-w-2xl mx-auto"
+              className="text-center text-text-tertiary text-base sm:text-lg mb-10 sm:mb-14 max-w-2xl mx-auto"
             >
               Manage your invoices, clients, and settings with ease
             </motion.p>
@@ -579,8 +559,8 @@ const HomePageUnified = () => {
                   onClick={() => setAppState('invoices')}
                 >
                   <FileText className="w-10 h-10 sm:w-12 sm:h-12 text-sage-500 mx-auto mb-4 transition-transform duration-300 group-hover:scale-110" />
-                  <h3 className="text-lg sm:text-xl font-semibold text-gray-100 mb-2">View Invoices</h3>
-                  <p className="text-sm sm:text-base text-gray-400">Browse and manage your invoices</p>
+                  <h3 className="text-lg sm:text-xl font-semibold text-text-primary mb-2">View Invoices</h3>
+                  <p className="text-sm sm:text-base text-text-tertiary">Browse and manage your invoices</p>
                 </Card>
               </motion.div>
 
@@ -595,8 +575,8 @@ const HomePageUnified = () => {
                   onClick={() => setAppState('clients')}
                 >
                   <Users className="w-10 h-10 sm:w-12 sm:h-12 text-sage-500 mx-auto mb-4 transition-transform duration-300 group-hover:scale-110" />
-                  <h3 className="text-lg sm:text-xl font-semibold text-gray-100 mb-2">Manage Clients</h3>
-                  <p className="text-sm sm:text-base text-gray-400">Add and organize your clients</p>
+                  <h3 className="text-lg sm:text-xl font-semibold text-text-primary mb-2">Manage Clients</h3>
+                  <p className="text-sm sm:text-base text-text-tertiary">Add and organize your clients</p>
                 </Card>
               </motion.div>
 
@@ -611,8 +591,8 @@ const HomePageUnified = () => {
                   onClick={() => setAppState('settings')}
                 >
                   <Settings className="w-10 h-10 sm:w-12 sm:h-12 text-sage-500 mx-auto mb-4 transition-transform duration-300 group-hover:scale-110" />
-                  <h3 className="text-lg sm:text-xl font-semibold text-gray-100 mb-2">Settings</h3>
-                  <p className="text-sm sm:text-base text-gray-400">Configure your preferences</p>
+                  <h3 className="text-lg sm:text-xl font-semibold text-text-primary mb-2">Settings</h3>
+                  <p className="text-sm sm:text-base text-text-tertiary">Configure your preferences</p>
                 </Card>
               </motion.div>
             </motion.div>
@@ -625,7 +605,7 @@ const HomePageUnified = () => {
         {appState === 'invoices' && (
           <motion.div
             key="invoices-panel"
-            className="fixed inset-0 z-40 bg-[#0f172a]/95 backdrop-blur-sm overflow-y-auto"
+            className="fixed inset-0 z-40 panel-background overflow-y-auto"
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
@@ -643,7 +623,7 @@ const HomePageUnified = () => {
         {appState === 'clients' && (
           <motion.div
             key="clients-panel"
-            className="fixed inset-0 z-40 bg-[#0f172a]/95 backdrop-blur-sm overflow-y-auto"
+            className="fixed inset-0 z-40 panel-background overflow-y-auto"
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
@@ -661,7 +641,7 @@ const HomePageUnified = () => {
         {appState === 'settings' && (
           <motion.div
             key="settings-panel"
-            className="fixed inset-0 z-40 bg-[#0f172a]/95 backdrop-blur-sm overflow-y-auto"
+            className="fixed inset-0 z-40 panel-background overflow-y-auto"
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
