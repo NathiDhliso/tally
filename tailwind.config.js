@@ -82,11 +82,63 @@ export default {
           800: '#1e40af',
           900: '#1e3a8a',
         },
+        // Aloe Design System - Deep Space Backgrounds
+        space: {
+          darkest: '#0a0a0f',
+          dark: '#0f172a',
+          medium: '#1e293b',
+          light: '#334155',
+        },
+        // Aloe Design System - Sage/Olive Green (Stability, Primary Actions)
+        sage: {
+          50: '#f6f8f4',
+          100: '#e8ede3',
+          200: '#d1dbc7',
+          300: '#b5c9a5',
+          400: '#8ba888',
+          500: '#6b8e23',
+          600: '#5a7a1e',
+          700: '#4a6619',
+          800: '#3a5214',
+          900: '#2a3e0f',
+        },
+        // Aloe Design System - Terracotta/Warm (Success, Reserves)
+        terracotta: {
+          50: '#fef6f0',
+          100: '#fde9d9',
+          200: '#fbd3b3',
+          300: '#f0b68c',
+          400: '#e8a87c',
+          500: '#d2691e',
+          600: '#b8591a',
+          700: '#9e4a16',
+          800: '#843b12',
+          900: '#6a2c0e',
+        },
+        // Aloe Design System - Warm Gold (Highlights, Success Accents)
+        gold: {
+          50: '#fefbf3',
+          100: '#fdf5e0',
+          200: '#faecc1',
+          300: '#f7e29f',
+          400: '#f4d03f',
+          500: '#daa520',
+          600: '#c19420',
+          700: '#a8831c',
+          800: '#8f7218',
+          900: '#766114',
+        },
       },
       animation: {
         'slide-up': 'slideUp 0.3s ease-out',
         'fade-in': 'fadeIn 0.2s ease-out',
         'scale-in': 'scaleIn 0.2s ease-out',
+        'breathing': 'breathing 3s ease-in-out infinite',
+        'shimmer': 'shimmer 2s linear infinite',
+        'glow-pulse': 'glowPulse 2s ease-in-out infinite',
+        'geometric-ripple': 'geometricRipple 1.5s ease-out infinite',
+        'bloom': 'bloom 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)',
+        'float': 'float 6s ease-in-out infinite',
       },
       keyframes: {
         slideUp: {
@@ -100,6 +152,30 @@ export default {
         scaleIn: {
           '0%': { transform: 'scale(0.95)', opacity: '0' },
           '100%': { transform: 'scale(1)', opacity: '1' },
+        },
+        breathing: {
+          '0%, 100%': { transform: 'scale(1)', opacity: '1' },
+          '50%': { transform: 'scale(1.05)', opacity: '0.8' },
+        },
+        shimmer: {
+          '0%': { backgroundPosition: '-200% 0' },
+          '100%': { backgroundPosition: '200% 0' },
+        },
+        glowPulse: {
+          '0%, 100%': { boxShadow: '0 0 20px rgba(107, 142, 35, 0.3)' },
+          '50%': { boxShadow: '0 0 40px rgba(218, 165, 32, 0.6)' },
+        },
+        geometricRipple: {
+          '0%': { transform: 'scale(1)', opacity: '0.6' },
+          '100%': { transform: 'scale(2)', opacity: '0' },
+        },
+        bloom: {
+          '0%': { transform: 'scale(0) rotate(-45deg)', opacity: '0' },
+          '100%': { transform: 'scale(1) rotate(0deg)', opacity: '1' },
+        },
+        float: {
+          '0%, 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(-20px)' },
         },
       },
       fontSize: {
@@ -120,6 +196,25 @@ export default {
       },
       minWidth: {
         touch: '44px',
+      },
+      boxShadow: {
+        'glow-sage': '0 0 20px rgba(107, 142, 35, 0.4)',
+        'glow-sage-lg': '0 0 40px rgba(107, 142, 35, 0.6)',
+        'glow-gold': '0 0 20px rgba(218, 165, 32, 0.4)',
+        'glow-gold-lg': '0 0 40px rgba(218, 165, 32, 0.6)',
+        'glow-terracotta': '0 0 20px rgba(210, 105, 30, 0.4)',
+        'glow-terracotta-lg': '0 0 40px rgba(210, 105, 30, 0.6)',
+        'inner-glow': 'inset 0 0 20px rgba(255, 255, 255, 0.1)',
+        'lift': '0 10px 40px rgba(0, 0, 0, 0.3)',
+        'glass': '0 8px 32px rgba(0, 0, 0, 0.1)',
+      },
+      backdropBlur: {
+        xs: '2px',
+      },
+      backgroundImage: {
+        'shimmer-gradient': 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent)',
+        'sage-gold-gradient': 'linear-gradient(135deg, #6b8e23, #daa520)',
+        'terracotta-gold-gradient': 'linear-gradient(135deg, #d2691e, #daa520)',
       },
     },
   },

@@ -1,6 +1,13 @@
 import { createContext, useContext, useState, useCallback, type ReactNode } from 'react';
-import ToastContainer, { type ToastItem } from '../components/ToastContainer';
-import type { ToastType } from '../components/Toast';
+import { AnimatePresence } from 'framer-motion';
+import Toast, { type ToastType } from '../components/Toast';
+
+interface ToastItem {
+  id: string;
+  type: ToastType;
+  message: string;
+  duration?: number;
+}
 
 interface ToastContextType {
   showToast: (type: ToastType, message: string, duration?: number) => void;
@@ -45,7 +52,22 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
   return (
     <ToastContext.Provider value={{ showToast, success, error, warning, info }}>
       {children}
-      <ToastContainer toasts={toasts} onClose={removeToast} />
+      {/* Toast Container - Inline implementation */}
+      <div className="fixed top-4 right-4 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none">
+        <AnimatePresence mode="popLayout">
+          {toasts.map((toast) => (
+            <div key={toast.id} className="pointer-events-auto">
+              <Toast
+                id={toast.id}
+                type={toast.type}
+                message={toast.message}
+                duration={toast.duration}
+                onClose={removeToast}
+              />
+            </div>
+          ))}
+        </AnimatePresence>
+      </div>
     </ToastContext.Provider>
   );
 };

@@ -64,7 +64,7 @@ describe('VoiceRecorder - MediaRecorder Integration', () => {
 
     // Should show permission modal
     await waitFor(() => {
-      expect(screen.getByText('Microphone Access Required')).toBeInTheDocument();
+      expect(screen.getByText("Let's Get Started!")).toBeInTheDocument();
     });
   });
 
@@ -82,7 +82,7 @@ describe('VoiceRecorder - MediaRecorder Integration', () => {
 
     // Grant permission
     await waitFor(() => {
-      const allowButton = screen.getByText('Allow Microphone Access');
+      const allowButton = screen.getByText("Sure, Let's Go!");
       fireEvent.click(allowButton);
     });
 
@@ -101,20 +101,20 @@ describe('VoiceRecorder - MediaRecorder Integration', () => {
     fireEvent.click(button);
 
     await waitFor(() => {
-      const allowButton = screen.getByText('Allow Microphone Access');
+      const allowButton = screen.getByText("Sure, Let's Go!");
       fireEvent.click(allowButton);
     });
 
     // Wait for recording to start
     await waitFor(() => {
-      expect(screen.getByText(/Recording\.\.\. Tap to stop/)).toBeInTheDocument();
+      expect(screen.getByText(/I'm all ears/)).toBeInTheDocument();
     });
 
     // Stop recording
     fireEvent.click(button);
 
     await waitFor(() => {
-      expect(screen.getByText(/Uploading audio\.\.\./)).toBeInTheDocument();
+      expect(screen.getByText(/Sending your details/)).toBeInTheDocument();
     });
   });
 
@@ -128,7 +128,7 @@ describe('VoiceRecorder - MediaRecorder Integration', () => {
     fireEvent.click(button);
 
     await waitFor(() => {
-      const allowButton = screen.getByText('Allow Microphone Access');
+      const allowButton = screen.getByText("Sure, Let's Go!");
       fireEvent.click(allowButton);
     });
 
@@ -153,7 +153,7 @@ describe('VoiceRecorder - MediaRecorder Integration', () => {
     fireEvent.click(button);
 
     await waitFor(() => {
-      const allowButton = screen.getByText('Allow Microphone Access');
+      const allowButton = screen.getByText("Sure, Let's Go!");
       fireEvent.click(allowButton);
     });
 
@@ -161,7 +161,7 @@ describe('VoiceRecorder - MediaRecorder Integration', () => {
     vi.advanceTimersByTime(120000);
 
     await waitFor(() => {
-      expect(screen.getByText(/Uploading audio\.\.\./)).toBeInTheDocument();
+      expect(screen.getByText(/Sending your details/)).toBeInTheDocument();
     });
 
     vi.useRealTimers();
@@ -181,13 +181,13 @@ describe('VoiceRecorder - MediaRecorder Integration', () => {
 
     // Grant permission (which will fail)
     await waitFor(() => {
-      const allowButton = screen.getByText('Allow Microphone Access');
+      const allowButton = screen.getByText("Sure, Let's Go!");
       fireEvent.click(allowButton);
     });
 
     // Should show error modal
     await waitFor(() => {
-      expect(screen.getByText('Microphone Access Denied')).toBeInTheDocument();
+      expect(screen.getByText('Eish, I Need Permission!')).toBeInTheDocument();
     });
   });
 
@@ -205,13 +205,13 @@ describe('VoiceRecorder - MediaRecorder Integration', () => {
 
     // Grant permission (which will fail)
     await waitFor(() => {
-      const allowButton = screen.getByText('Allow Microphone Access');
+      const allowButton = screen.getByText("Sure, Let's Go!");
       fireEvent.click(allowButton);
     });
 
     // Should show error modal
     await waitFor(() => {
-      expect(screen.getByText('No Microphone Found')).toBeInTheDocument();
+      expect(screen.getByText("Where's Your Mic?")).toBeInTheDocument();
     });
   });
 
@@ -227,8 +227,8 @@ describe('VoiceRecorder - MediaRecorder Integration', () => {
     vi.advanceTimersByTime(500);
 
     await waitFor(() => {
-      expect(screen.getByText('Recent Clients')).toBeInTheDocument();
-      expect(screen.getByText('Type Instead')).toBeInTheDocument();
+      expect(screen.getByText('📋 Recent Clients')).toBeInTheDocument();
+      expect(screen.getByText('⌨️ Type Instead')).toBeInTheDocument();
     });
 
     vi.useRealTimers();
@@ -247,13 +247,13 @@ describe('VoiceRecorder - MediaRecorder Integration', () => {
 
     // Grant permission (which will fail)
     await waitFor(() => {
-      const allowButton = screen.getByText('Allow Microphone Access');
+      const allowButton = screen.getByText("Sure, Let's Go!");
       fireEvent.click(allowButton);
     });
 
     // Should show error modal
     await waitFor(() => {
-      expect(screen.getByText('Browser Not Supported')).toBeInTheDocument();
+      expect(screen.getByText('Oops, Browser Issue')).toBeInTheDocument();
     });
 
     // Restore

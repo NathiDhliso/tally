@@ -1,20 +1,49 @@
 @import "tailwindcss";
+@import "./styles/browser-compatibility.css";
 
 @layer base {
   :root {
     font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
     line-height: 1.5;
     font-weight: 400;
+    
+    /* Aloe Design System CSS Variables */
+    --color-sage: #6b8e23;
+    --color-terracotta: #d2691e;
+    --color-gold: #daa520;
+    --color-space-dark: #0f172a;
+    --color-space-darkest: #0a0a0f;
+    
+    /* Glassmorphism Variables */
+    --glass-bg: rgba(255, 255, 255, 0.1);
+    --glass-bg-hover: rgba(255, 255, 255, 0.15);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --glass-sage: rgba(107, 142, 35, 0.1);
+  }
+
+  /* Dark mode is the primary experience */
+  html.dark {
+    color-scheme: dark;
   }
 
   body {
     margin: 0;
     min-width: 320px;
     min-height: 100vh;
+    /* Default to dark mode background */
+    background-color: #0f172a;
+    color: #f3f4f6;
+  }
+
+  /* Light mode is optional and secondary */
+  html:not(.dark) body {
+    background-color: #f9fafb;
+    color: #111827;
   }
 }
 
 @layer utilities {
+  /* Legacy animations */
   @keyframes slide-up {
     from {
       transform: translateY(100%);
@@ -26,5 +55,209 @@
 
   .animate-slide-up {
     animation: slide-up 0.3s ease-out;
+  }
+  
+  /* Breathing animation - for ambient pulsing effects */
+  @keyframes breathing {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 0.8;
+    }
+    50% {
+      transform: scale(1.05);
+      opacity: 1;
+    }
+  }
+  
+  .animate-breathing {
+    animation: breathing 2s ease-in-out infinite;
+  }
+  
+  /* Shimmer effect - for loading states and highlights */
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+  
+  .animate-shimmer {
+    animation: shimmer 2s linear infinite;
+  }
+  
+  /* Geometric ripple - Aloe-inspired diamond ripple effect */
+  @keyframes geometricRipple {
+    0% {
+      transform: scale(0.8);
+      opacity: 0.8;
+    }
+    50% {
+      opacity: 0.4;
+    }
+    100% {
+      transform: scale(1.5);
+      opacity: 0;
+    }
+  }
+  
+  .animate-geometric-ripple {
+    animation: geometricRipple 1.5s ease-out infinite;
+  }
+  
+  /* Bloom animation - for success states */
+  @keyframes bloom {
+    0% {
+      transform: scale(0) rotate(-45deg);
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1) rotate(0deg);
+      opacity: 1;
+    }
+  }
+  
+  .animate-bloom {
+    animation: bloom 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
+  
+  /* Typing effect - for AI companion text */
+  @keyframes typing {
+    from {
+      width: 0;
+    }
+    to {
+      width: 100%;
+    }
+  }
+  
+  @keyframes blink {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
+  
+  .animate-typing {
+    overflow: hidden;
+    white-space: nowrap;
+    animation: typing 1.5s steps(40, end);
+  }
+  
+  /* Glassmorphism utilities */
+  .glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  }
+  
+  .glass-card-hover:hover {
+    background: var(--glass-bg-hover);
+    box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.45);
+  }
+  
+  .glass-button {
+    background: var(--glass-bg);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.25);
+  }
+  
+  .glass-button:hover {
+    background: var(--glass-bg-hover);
+    box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.35);
+  }
+  
+  .glass-modal {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 16px 48px 0 rgba(0, 0, 0, 0.5);
+  }
+  
+  .glass-input {
+    background: var(--glass-bg);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--glass-border);
+    transition: all 0.3s ease;
+  }
+  
+  .glass-input:focus {
+    background: var(--glass-bg-hover);
+    border-color: var(--color-sage);
+    box-shadow: 0 0 0 3px rgba(107, 142, 35, 0.2);
+  }
+  
+  /* Shimmer effect for loading states */
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.1),
+      transparent
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2s linear infinite;
+  }
+  
+  /* Shimmer gradient for progress bars */
+  .shimmer-gradient {
+    background: linear-gradient(
+      90deg,
+      var(--color-sage),
+      var(--color-gold),
+      var(--color-sage)
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2s linear infinite;
+  }
+  
+  /* Typing effect */
+  .typing-cursor::after {
+    content: '|';
+    animation: blink 1s step-end infinite;
+  }
+  
+  /* Geometric ripple for Aloe design */
+  .geometric-ripple {
+    position: absolute;
+    border: 2px solid var(--color-sage);
+    opacity: 0.6;
+    animation: geometricRipple 1.5s ease-out infinite;
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  }
+  
+  /* Fallback for browsers without backdrop-filter support */
+  @supports not (backdrop-filter: blur(12px)) {
+    .glass-card,
+    .glass-button {
+      background: rgba(255, 255, 255, 0.2);
+    }
+    
+    .glass-modal {
+      background: rgba(255, 255, 255, 0.1);
+    }
+  }
+  
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }

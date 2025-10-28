@@ -1,13 +1,18 @@
 import type { ReactNode } from 'react';
+import { motion } from 'framer-motion';
+import { useReducedMotion } from '../hooks/useReducedMotion';
 
 interface BadgeProps {
   children: ReactNode;
   variant?: 'primary' | 'secondary' | 'success' | 'warning' | 'error' | 'info' | 'neutral';
   size?: 'sm' | 'md' | 'lg';
   className?: string;
+  pulse?: boolean;
 }
 
-const Badge = ({ children, variant = 'neutral', size = 'md', className = '' }: BadgeProps) => {
+const Badge = ({ children, variant = 'neutral', size = 'md', className = '', pulse = false }: BadgeProps) => {
+  const prefersReducedMotion = useReducedMotion();
+
   const variantStyles = {
     primary: 'bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300',
     secondary: 'bg-secondary-100 dark:bg-secondary-900 text-secondary-700 dark:text-secondary-300',
@@ -25,11 +30,32 @@ const Badge = ({ children, variant = 'neutral', size = 'md', className = '' }: B
   };
 
   return (
-    <span
+    <motion.span
+      initial={{ scale: 0, opacity: 0 }}
+      animate={{ 
+        scale: 1, 
+        opacity: 1,
+        ...(pulse && !prefersReducedMotion ? {
+          scale: [1, 1.05, 1],
+        } : {})
+      }}
+      transition={{ 
+        type: 'spring', 
+        stiffness: 500, 
+        damping: 25,
+        ...(pulse && !prefersReducedMotion ? {
+          scale: {
+            repeat: Infinity,
+            duration: 2,
+            ease: 'easeInOut'
+          }
+        } : {})
+      }}
+      whileHover={!prefersReducedMotion ? { scale: 1.05 } : {}}
       className={`inline-flex items-center font-medium rounded-full ${variantStyles[variant]} ${sizeStyles[size]} ${className}`}
     >
       {children}
-    </span>
+    </motion.span>
   );
 };
 

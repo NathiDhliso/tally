@@ -9,6 +9,7 @@ import {
   SettingsPage,
   InvoiceReviewPage,
 } from './pages';
+import { BrowserTestPanel } from './components/BrowserTestPanel';
 
 function App() {
   return (
@@ -22,6 +23,8 @@ function App() {
               <Route path="invoice/review" element={<InvoiceReviewPage />} />
               <Route path="clients" element={<ClientsPage />} />
               <Route path="settings" element={<SettingsPage />} />
+              {/* Development-only route for browser testing */}
+              <Route path="browser-test" element={<BrowserTestPanel />} />
             </Route>
           </Routes>
         </AuthProvider>

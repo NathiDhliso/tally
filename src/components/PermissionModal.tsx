@@ -29,12 +29,12 @@ export const PermissionModal = ({ isOpen, onAllow, onDeny }: PermissionModalProp
 
         {/* Title */}
         <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 text-center mb-2">
-          Microphone Access Required
+          Let's Get Started!
         </h2>
 
         {/* Privacy Message */}
         <p className="text-gray-600 dark:text-gray-400 text-center mb-6">
-          We need access to your microphone to record invoice details. Your voice recordings are processed securely and deleted after 24 hours.
+          I'll need to use your microphone to hear your invoice details. Don't worry - your recordings are kept secure and automatically deleted after 24 hours. Promise!
         </p>
 
         {/* Actions */}
@@ -44,7 +44,7 @@ export const PermissionModal = ({ isOpen, onAllow, onDeny }: PermissionModalProp
             className="w-full py-3 px-4 bg-primary-500 hover:bg-primary-600 dark:bg-primary-600 dark:hover:bg-primary-700 text-white font-medium rounded-xl transition-colors"
             style={{ minHeight: '44px' }}
           >
-            Allow Microphone Access
+            Sure, Let's Go!
           </button>
           
           <button
@@ -52,7 +52,7 @@ export const PermissionModal = ({ isOpen, onAllow, onDeny }: PermissionModalProp
             className="w-full py-3 px-4 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 font-medium transition-colors"
             style={{ minHeight: '44px' }}
           >
-            Not Now
+            Maybe Later
           </button>
         </div>
       </div>
